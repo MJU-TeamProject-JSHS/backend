@@ -48,3 +48,6 @@ logs/
 *.env
 *.local.*
 application-*.local.yml
+
+# Custom
+src/main/resources/application-secret.yml

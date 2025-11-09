@@ -9,9 +9,33 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  profiles:
+    include: secret
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao: # 'kakao'라는 이름으로 등록
+            client-id: ON_SECRET
+            client-secret: ON_SECRET
+            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"
+            scope:
+              - profile_nickname
+              - account_email
+            client-authentication-method: post
+            authorization-grant-type: authorization_code
+
+        provider:
+          kakao: # 'kakao' 제공자에 대한 정보
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id # 사용자 정보를 가져왔을 때 기준이 되는 key
+
 logging:
   level:
     org.hibernate.SQL: debug
 
 server:
   port: 8080
+
