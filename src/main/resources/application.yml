@@ -16,10 +16,10 @@ spring:
       client:
         registration:
           kakao: # 'kakao'라는 이름으로 등록
-            client-id: ON_SECRET
-            client-secret: ON_SECRET
-            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"
-            scope:
+            client-id: ${KAKAO_CLIENTA_ID}
+            client-secret: ${KAKAO_CLIENTA_SECRET}
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: 
               - profile_nickname
               - account_email
             client-authentication-method: post
