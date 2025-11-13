@@ -9,8 +9,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  profiles:
-    include: secret
   security:
     oauth2:
       client:
@@ -19,7 +17,7 @@ spring:
             client-id: ${KAKAO_CLIENTA_ID}
             client-secret: ${KAKAO_CLIENTA_SECRET}
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope: 
+            scope:
               - profile_nickname
               - account_email
             client-authentication-method: post
