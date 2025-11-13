@@ -30,6 +30,21 @@ public class SecurityConfig {
     }
 
     private AuthenticationSuccessHandler successHandler() {
-        return null;
+        return ((request, response, authentication) -> {
+            DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal(); // 인증이 완료된 사용자 정보 객체를 가져옴
+
+            String id = defaultOAuth2User.getAttribute("id"); // 사용자 정보 맵에서 카카오가 발급한 고유 값을 가져옴
+            String body = """
+                    {"id":"%s"}
+                    """.formatted(id); // HTTP 응답의 타입을 HTML이 아닌 JSON이라고 클라이언트에게 알림
+
+            // HTTP응답의 헤더 설정
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE); // JSON 영식 선언
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name()); // UTF-8 인코딩 선언
+
+            PrintWriter writer = response.getWriter(); // 객체에 텍스트를 쓸 수 있는 객체
+            writer.print(body); // body를 작성
+            writer.flush();
+        });
     }
 }
