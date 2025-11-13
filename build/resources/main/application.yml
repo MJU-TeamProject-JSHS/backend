@@ -1,17 +1,58 @@
 spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/dding
+#    username: dding
+#    password: ddingpw
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    properties:
+#      hibernate:
+#        format_sql: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/dding
-    username: dding
-    password: ddingpw
+    # H2를 내장 모드(in-memory)로 실행합니다.
+    # 'testdb'는 DB 이름이며, 원하는 대로 변경 가능합니다.
+    url: jdbc:h2:mem:testdb
+    username: sa # H2의 기본 관리자 ID
+    password:    # H2의 기본 비밀번호는 없습니다 (비워둠)
+    driver-class-name: org.h2.Driver
+
   jpa:
     hibernate:
-      ddl-auto: update
+      # (중요) H2는 메모리 기반이므로, 앱 실행 시마다 테이블을 새로 생성해야 합니다.
+      # create-drop: 앱 실행 시 테이블 생성, 종료 시 테이블 삭제
+      # create: 앱 실행 시 테이블 생성 (종료 시 삭제 안 함 - in-memory에선 무의미)
+      ddl-auto: create-drop
     properties:
       hibernate:
-        format_sql: true
+        # H2용 방언(Dialect)을 사용하도록 설정 (사실 url을 보고 자동 감지하긴 합니다)
+        dialect: org.hibernate.dialect.H2Dialect
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao: # 'kakao'라는 이름으로 등록
+            client-id: ${KAKAO_CLIENTA_ID}
+            client-secret: ${KAKAO_CLIENTA_SECRET}
+#            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"
+            scope:
+              - profile_nickname
+#              - account_email
+            client-authentication-method: post
+            authorization-grant-type: authorization_code
+
+        provider:
+          kakao: # 'kakao' 제공자에 대한 정보
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id # 사용자 정보를 가져왔을 때 기준이 되는 key
+
 logging:
   level:
     org.hibernate.SQL: debug
 
 server:
   port: 8080
+
