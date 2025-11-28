@@ -2,22 +2,19 @@ package com.dding.backend.domain.auth.service;
 
 import com.dding.backend.domain.user.dto.UserDTO;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 @Getter
-@Setter
 public class CustomOAuth2User implements OAuth2User {
 
     private final UserDTO userDTO;
-
     private final Map<String, Object> attributes;
-    private String token;
 
     public CustomOAuth2User(UserDTO userDTO, Map<String, Object> attributes) {
         this.userDTO = userDTO;
@@ -31,26 +28,19 @@ public class CustomOAuth2User implements OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        Collection<GrantedAuthority> collection = new ArrayList<>();
-
-        collection.add(new GrantedAuthority() {
-
-            @Override
-            public String getAuthority() {
-
-//                return userDTO.getRole();
-                return "ROLE_USER";
-            }
-
-        });
-
-        return collection;
+        return Collections.singleton(new SimpleGrantedAuthority(this.userDTO.getRole()));
     }
 
     @Override
     public String getName() {
+        return this.userDTO.getKakaoId();
+    }
 
-        return userDTO.getKakaoId();
+    public String getKakaoId() {
+        return this.userDTO.getKakaoId();
+    }
+
+    public String getRole() {
+        return this.userDTO.getRole();
     }
 }
