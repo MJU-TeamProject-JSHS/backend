@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -34,6 +35,7 @@ public class SecurityConfig {
 
         // 요청별 권한 설정
         http.authorizeHttpRequests(config -> config
+                .requestMatchers(HttpMethod.POST, "/api/auth/login/kakao").permitAll()
                 .requestMatchers("/api/auth/refresh", "/h2-console/**", "/oauth2/**").permitAll()
                 .anyRequest().authenticated());
 
