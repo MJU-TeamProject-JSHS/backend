@@ -33,8 +33,10 @@ spring:
           kakao: # 'kakao'라는 이름으로 등록
 #            client-id: ${KAKAO_CLIENT_ID}
 #            client-secret: ${KAKAO_CLIENT_SECRET}
-            client-id: 3f4f8f72459c099903bc9d4c7d7e5331
-            client-secret: j5X51YQh439nEua0cSKoXqDjdyMQAoRs
+#            client-id: 3f4f8f72459c099903bc9d4c7d7e5331
+#            client-secret: j5X51YQh439nEua0cSKoXqDjdyMQAoRs
+            client-id: b296a640468c8a343dafa325ad9bf16f
+            client-secret: lgaqVAtRk4a7BsL1Kz54nRDfkBiy1zBU
 #            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
 #            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             redirect-uri: https://volubly-uncorroboratory-consuelo.ngrok-free.dev/login/oauth2/code/kakao

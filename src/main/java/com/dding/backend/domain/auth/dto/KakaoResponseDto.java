@@ -1,14 +1,17 @@
 package com.dding.backend.domain.auth.dto;
 
+import lombok.*;
+
 import java.util.Map;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class KakaoResponseDto implements OAuth2Response{
 
-    private final Map<String, Object> attribute;
-
-    public KakaoResponseDto(Map<String, Object> attribute) {
-        this.attribute = attribute;
-    }
+    private Map<String, Object> attribute;
 
     @Override
     public String getProvider() {
@@ -17,8 +20,12 @@ public class KakaoResponseDto implements OAuth2Response{
 
     @Override
     public String getProviderId() {
+        if(attribute == null) {
+            return null;
+        }
         return attribute.get("id").toString();
     }
+
 
     @Override
     public String getName() {

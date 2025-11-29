@@ -1,12 +1,11 @@
 package com.dding.backend.domain.auth.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @NoArgsConstructor
-public class KakaoCodeRequestDto {
-    private String code;
+public class KakaoTokenRequestDto {
+    private String accessToken;
 }
